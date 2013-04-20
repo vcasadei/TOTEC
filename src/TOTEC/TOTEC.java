@@ -1,5 +1,15 @@
+/*
+ * 
+ * Author: Vitor Casadei
+ * Date: 29/04/2013
+ * Info: Cyan Testing Tools
+ * 
+ */
+
+/* Package TOTEC */
 package TOTEC;
 
+/* Java imports */
 import java.awt.Desktop;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
