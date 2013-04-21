@@ -10,6 +10,9 @@
 package TOTEC;
 
 /* Java imports */
+import java.awt.Container;
+import java.util.Enumeration;
+import java.util.List;
 import java.awt.Desktop;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,22 +26,30 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.text.Position;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+
+
 
 
 /* Class TOTEC implements the FileTree Model of the Graphic Program */
 public class TOTEC extends JFrame {
+    
     /* An Jtree Object that is used to model the Directory Tree */
-
     private JTree fileTree;
     /* Used to implement the JTree Model */
     private FileSystemModel fileSystemModel;
@@ -47,6 +58,9 @@ public class TOTEC extends JFrame {
     private int heigth = 768;
     /* An JTextArea with the file Details */
     private JTextArea fileDetailsTextArea = new JTextArea();
+    
+    static boolean flag;
+   
 
     /* TOTEC constructor Method */
     public TOTEC(String directory) {
@@ -55,14 +69,30 @@ public class TOTEC extends JFrame {
         /* Set the JTextArea not Editable */
         fileDetailsTextArea.setEditable(false);
         /* Creates a new FileSystemModel with the directory */
+        
+        createTree(directory, 1);
+        
+    }
+    
+    private void createTree(String directory, int row){
         fileSystemModel = new FileSystemModel(new File(directory));
+        
         /* Creates the JTree based on the FileSystemModel */
         fileTree = new JTree( fileSystemModel);
         /* Sets the JTree Editable */
         fileTree.setEditable(true);
         /* Get the focus to the second element on the tree */
-        fileTree.setSelectionRow(1);
-
+        fileTree.setSelectionRow(row);
+            
+//        TreeModel model = fileTree.getModel();
+//        if (model != null) {
+//            Object root = model.getRoot();
+//            System.out.println(root.toString());
+//            walk(model, root, "");
+//        } else {
+//            System.out.println("Tree is empty.");
+//        }
+        
         /* Creates and Listener to the Tree node Selected */
         fileTree.addTreeSelectionListener(new TreeSelectionListener() {
             /* Inner Method that implements the usability of the JTree */
@@ -70,6 +100,9 @@ public class TOTEC extends JFrame {
             public void valueChanged(TreeSelectionEvent event) {
                 /* Defines an File object as an JTree component */
                 final File file = (File) fileTree.getLastSelectedPathComponent();
+//                System.out.println(fileTree.getRowForPath(fileTree.getSelectionPath()));
+                
+
                 /* Ignores the files that have an . at the begin of it's name */
                 if (file.getName().indexOf(".") == -1 || file.getName().indexOf(".") > 0) {
                     /* Try/Catch that tries to call the setText Method */
@@ -113,6 +146,13 @@ public class TOTEC extends JFrame {
                         } catch (IOException ex) {
                             Logger.getLogger(TOTEC.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                    } else {
+                        if(e.getKeyCode() == 32){
+                           createTree("/home/", 1);
+                          fileTree.collapseRow(fileTree.getRowForPath(fileTree.getSelectionPath()));
+                          fileTree.expandRow(fileTree.getRowForPath(fileTree.getSelectionPath()));
+                          
+                        }
                     }
                 }
             }
@@ -136,7 +176,34 @@ public class TOTEC extends JFrame {
         /* Maximize the root Window */
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
+
     }
+   
+    
+protected void walk(TreeModel model, Object o, String s){
+    int  cc;
+    int a;
+    cc = model.getChildCount(o);
+    
+    for( int i=0; i < cc; i++) {
+      Object child = model.getChild(o, i );
+      
+      
+      if(child.toString().equals("Desktop")){
+          System.out.println("ACHEI Porra!" + s);
+          return;
+      }
+      if (model.isLeaf(child)){
+          a = 0;
+          s = "";
+//        System.out.println(child.toString());
+      }else {
+          s = s + child.toString() + "/";
+//        System.out.print(child.toString()+"--");
+        walk(model,child, s ); 
+        }
+     }
+   }
 
     /* Method that verifies if the file can be opened or showed */
     private boolean fileIsOk(File file) {
@@ -194,12 +261,14 @@ public class TOTEC extends JFrame {
     /* Main Method */
     public static void main(String args[]) {
         /* Calls the class constructor */
+        flag = true;
         TOTEC totec = new TOTEC("/home/");
+       
     }
 }
 
 /* Class that implements the TreeModel's abstract methods */
-class FileSystemModel implements TreeModel  {
+class FileSystemModel implements TreeModel {
     /* File and Vector Objects */
     private File root;
     private Vector listeners = new Vector();
