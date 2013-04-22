@@ -10,12 +10,17 @@
 package TOTEC;
 
 /* Java imports */
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.util.Enumeration;
 import java.util.List;
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,12 +30,22 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -60,6 +75,10 @@ public class TOTEC extends JFrame {
     private JTextArea fileDetailsTextArea = new JTextArea();
     
     static boolean flag;
+    
+    JTextArea output;
+    JScrollPane scrollPane;
+    String newline = "\n";
    
 
     /* TOTEC constructor Method */
@@ -72,11 +91,14 @@ public class TOTEC extends JFrame {
         
         createTree(directory, 1);
         
+        
+        
+        
     }
     
     private void createTree(String directory, int row){
         fileSystemModel = new FileSystemModel(new File(directory));
-        
+        PopupMenuDemo demo = new PopupMenuDemo();
         /* Creates the JTree based on the FileSystemModel */
         fileTree = new JTree( fileSystemModel);
         /* Sets the JTree Editable */
@@ -176,6 +198,12 @@ public class TOTEC extends JFrame {
         /* Maximize the root Window */
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
+        
+        setJMenuBar(demo.createMenuBar());
+//        setContentPane(demo.createContentPane());
+ 
+        //Create and set up the popup menu.
+        demo.createPopupMenu();
 
     }
    
