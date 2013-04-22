@@ -17,6 +17,7 @@ import java.util.List;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -62,7 +63,7 @@ import javax.swing.tree.TreePath;
 
 
 /* Class TOTEC implements the FileTree Model of the Graphic Program */
-public class TOTEC extends JFrame {
+public class TOTEC extends JFrame implements ActionListener, ItemListener {
     
     /* An Jtree Object that is used to model the Directory Tree */
     private JTree fileTree;
@@ -75,12 +76,259 @@ public class TOTEC extends JFrame {
     private JTextArea fileDetailsTextArea = new JTextArea();
     
     static boolean flag;
-    
-    JTextArea output;
-    JScrollPane scrollPane;
     String newline = "\n";
    
 
+    public JMenuBar createMenuBar() {
+        JMenuBar menuBar;
+        JMenu menu, submenu;
+        JMenuItem menuItem;
+        JRadioButtonMenuItem rbMenuItem;
+        JCheckBoxMenuItem cbMenuItem;
+ 
+        //Create the menu bar.
+        menuBar = new JMenuBar();
+ 
+        //Build the first menu.
+        menu = new JMenu("File");
+            menu.setMnemonic(KeyEvent.VK_F);
+            menu.getAccessibleContext().setAccessibleDescription(
+                    "File Menu");
+            menuBar.add(menu);
+
+            //a group of JMenuItems
+            menuItem = new JMenuItem("Reload File System Tree",
+                                     KeyEvent.VK_R);
+            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_R, ActionEvent.ALT_MASK));
+            menuItem.getAccessibleContext().setAccessibleDescription(
+                    "Reload File System Tree");
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+
+            //a group of radio button menu items
+            menu.addSeparator();
+            menuItem = new JMenuItem("Exit",
+                                     KeyEvent.VK_E);
+            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_E, ActionEvent.ALT_MASK));
+            menuItem.getAccessibleContext().setAccessibleDescription(
+                    "Exit this Program");
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+ 
+        //Build second menu in the menu bar.
+        menu = new JMenu("Cyan Testing Tools");
+        menu.setMnemonic(KeyEvent.VK_Y);
+        menu.getAccessibleContext().setAccessibleDescription(
+                "Cyan Testing Tools Menu");
+        menuBar.add(menu);
+        
+            
+            submenu = new JMenu("AAT");
+            submenu.setMnemonic(KeyEvent.VK_T);
+
+                menuItem = new JMenuItem("Execute AAT");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_1, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_2, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            
+            submenu = new JMenu("CCC");
+            submenu.setMnemonic(KeyEvent.VK_C);
+
+                menuItem = new JMenuItem("Execute CCC");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_3, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_4, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            
+            submenu = new JMenu("RAT");
+            submenu.setMnemonic(KeyEvent.VK_R);
+
+                menuItem = new JMenuItem("Execute RAT");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_5, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_6, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            menu.addSeparator();
+            
+            submenu = new JMenu("CPC");
+            submenu.setMnemonic(KeyEvent.VK_P);
+
+                menuItem = new JMenuItem("Execute CPC");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_7, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_8, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            submenu = new JMenu("CAT");
+            submenu.setMnemonic(KeyEvent.VK_T);
+
+                menuItem = new JMenuItem("Execute CAT");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_9, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_0, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            submenu = new JMenu("CP");
+            submenu.setMnemonic(KeyEvent.VK_O);
+
+                menuItem = new JMenuItem("Execute CP");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_A, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_B, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            submenu = new JMenu("CPA");
+            submenu.setMnemonic(KeyEvent.VK_A);
+
+                menuItem = new JMenuItem("Execute CPA");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_F, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+
+                menuItem = new JMenuItem("Select Folder");
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                        KeyEvent.VK_G, ActionEvent.ALT_MASK));
+                menuItem.addActionListener(this);
+                submenu.add(menuItem);
+            menu.add(submenu);
+            
+            //Build second menu in the menu bar.
+            menu = new JMenu("Help");
+            menu.setMnemonic(KeyEvent.VK_H);
+            menu.getAccessibleContext().setAccessibleDescription(
+                    "Help Menu");
+            menuBar.add(menu);
+            
+            menuItem = new JMenuItem("Program Info",
+                                     KeyEvent.VK_I);
+            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
+            menuItem.getAccessibleContext().setAccessibleDescription(
+                    "Program Information");
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+            
+            menuItem = new JMenuItem("Developer",
+                                     KeyEvent.VK_D);
+            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
+            menuItem.getAccessibleContext().setAccessibleDescription(
+                    "Developer Information");
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+            
+            menuItem = new JMenuItem("The Cyan Language",
+                                     KeyEvent.VK_L);
+            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
+            menuItem.getAccessibleContext().setAccessibleDescription(
+                    "The Cyan Language Information");
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+            
+            menuItem = new JMenuItem("Program Documentation",
+                                     KeyEvent.VK_M);
+            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
+            menuItem.getAccessibleContext().setAccessibleDescription(
+                    "TOTEC Program Documentation");
+            menuItem.addActionListener(this);
+            menu.add(menuItem);
+            
+            
+            
+
+        return menuBar;
+    }
+ 
+
+    public void actionPerformed(ActionEvent e) {
+        JMenuItem source = (JMenuItem)(e.getSource());
+        String s = "Action event detected."
+                   + newline
+                   + "    Event source: " + source.getText()
+                   + " (an instance of " + getClassName(source) + ")";
+        if(source.getText().equals("Reload File System Tree")){
+            createTree("/home/", 1);
+        } else {
+            if(source.getText().equals("Exit")){
+                super.dispose();
+            }
+        }
+//        output.append(s + newline);
+//        output.setCaretPosition(output.getDocument().getLength());
+        System.out.println(s);
+    }
+ 
+    public void itemStateChanged(ItemEvent e) {
+        JMenuItem source = (JMenuItem)(e.getSource());
+        String s = "Item event detected."
+                   + newline
+                   + "    Event source: " + source.getText()
+                   + " (an instance of " + getClassName(source) + ")"
+                   + newline
+                   + "    New state: "
+                   + ((e.getStateChange() == ItemEvent.SELECTED) ?
+                     "selected":"unselected");
+//        output.append(s + newline);
+//        output.setCaretPosition(output.getDocument().getLength());
+        System.out.println(s);
+    }
+ 
+    // Returns just the class name -- no package info.
+    protected String getClassName(Object o) {
+        String classString = o.getClass().getName();
+        int dotIndex = classString.lastIndexOf(".");
+        return classString.substring(dotIndex+1);
+    }
+    
     /* TOTEC constructor Method */
     public TOTEC(String directory) {
         /* Sets the Window title to the super class (JFrame) */
@@ -89,16 +337,15 @@ public class TOTEC extends JFrame {
         fileDetailsTextArea.setEditable(false);
         /* Creates a new FileSystemModel with the directory */
         
-        createTree(directory, 1);
+        createTree(directory, 1); 
         
-        
-        
+        setJMenuBar(createMenuBar());
         
     }
     
     private void createTree(String directory, int row){
         fileSystemModel = new FileSystemModel(new File(directory));
-        PopupMenuDemo demo = new PopupMenuDemo();
+        
         /* Creates the JTree based on the FileSystemModel */
         fileTree = new JTree( fileSystemModel);
         /* Sets the JTree Editable */
@@ -199,11 +446,9 @@ public class TOTEC extends JFrame {
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         
-        setJMenuBar(demo.createMenuBar());
+        
 //        setContentPane(demo.createContentPane());
  
-        //Create and set up the popup menu.
-        demo.createPopupMenu();
 
     }
    
