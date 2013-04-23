@@ -10,6 +10,9 @@
 package TOTEC;
 
 /* Java imports */
+import CyanTestingTools.AAT;
+import CyanTestingTools.CP;
+import CyanTestingTools.RAT;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.util.Enumeration;
@@ -39,6 +42,7 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
@@ -58,7 +62,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
 
 
 
@@ -136,7 +139,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder AAT");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_2, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -153,7 +156,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder CCC");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_4, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -170,7 +173,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder RAT");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_6, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -188,7 +191,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder CPC");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_8, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -204,7 +207,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder CAT");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_0, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -220,7 +223,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder CP");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_B, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -236,7 +239,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 menuItem.addActionListener(this);
                 submenu.add(menuItem);
 
-                menuItem = new JMenuItem("Select Folder");
+                menuItem = new JMenuItem("Select Folder CPA");
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_G, ActionEvent.ALT_MASK));
                 menuItem.addActionListener(this);
@@ -300,6 +303,76 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
         } else {
             if(source.getText().equals("Exit")){
                 super.dispose();
+            } else {
+                if(source.getText().equals("Execute CPC")){
+                    
+                } else {
+                    if(source.getText().equals("Select Folder CPC")){
+
+                    } else {
+                        if(source.getText().equals("Execute CAT")){
+
+                        } else {
+                            if(source.getText().equals("Select Folder CAT")){
+
+                            } else {
+                                if(source.getText().equals("Execute CP")){
+
+                                } else {
+                                    if(source.getText().equals("Select Folder CP")){
+
+                                    } else {
+                                        if(source.getText().equals("Execute CPA")){
+
+                                        } else {
+                                            if(source.getText().equals("Select Folder CPA")){
+
+                                            } else {
+                                                if(source.getText().equals("Execute AAT")){
+                                                    File file = (File) fileTree.getLastSelectedPathComponent();
+                                                    if(file.isDirectory() && fileIsOk(file)){
+                                                        AAT.main(new String[]{file.getPath()});
+                                                    } else {
+                                                        JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                                                    }
+                                                    
+                                                } else {
+                                                    if(source.getText().equals("Select Folder AAT")){
+                                                        File file = new File(AAT.selectDirectory());
+                                                        if(file.isDirectory() && fileIsOk(file)){
+                                                            AAT.main(new String[]{file.getPath()});
+                                                        } else {
+                                                            JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                                                        }
+                                                    } else {
+                                                        if(source.getText().equals("Execute RAT")){
+                                                            File file = (File) fileTree.getLastSelectedPathComponent();
+                                                            if(file.isDirectory() && fileIsOk(file)){
+                                                                RAT.main(new String[]{file.getPath()});
+                                                            } else {
+                                                                JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                                                            }
+
+                                                        } else {
+                                                            if(source.getText().equals("Select Folder RAT")){
+                                                                File file = new File(RAT.selectDirectory());
+                                                                if(file.isDirectory() && fileIsOk(file)){
+                                                                    RAT.main(new String[]{file.getPath()});
+                                                                } else {
+                                                                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                }
             }
         }
 //        output.append(s + newline);
@@ -343,7 +416,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
         
     }
     
-    private void createTree(String directory, int row){
+    private void createTree(final String directory, int row){
         fileSystemModel = new FileSystemModel(new File(directory));
         
         /* Creates the JTree based on the FileSystemModel */
@@ -417,7 +490,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                         }
                     } else {
                         if(e.getKeyCode() == 32){
-                           createTree("/home/", 1);
+                           createTree(directory , 1);
                           fileTree.collapseRow(fileTree.getRowForPath(fileTree.getSelectionPath()));
                           fileTree.expandRow(fileTree.getRowForPath(fileTree.getSelectionPath()));
                           
@@ -453,7 +526,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
     }
    
     
-protected void walk(TreeModel model, Object o, String s){
+protected void walk(TreeModel model, Object o){
     int  cc;
     int a;
     cc = model.getChildCount(o);
@@ -461,19 +534,12 @@ protected void walk(TreeModel model, Object o, String s){
     for( int i=0; i < cc; i++) {
       Object child = model.getChild(o, i );
       
-      
-      if(child.toString().equals("Desktop")){
-          System.out.println("ACHEI Porra!" + s);
-          return;
-      }
       if (model.isLeaf(child)){
           a = 0;
-          s = "";
 //        System.out.println(child.toString());
       }else {
-          s = s + child.toString() + "/";
 //        System.out.print(child.toString()+"--");
-        walk(model,child, s ); 
+        walk(model,child); 
         }
      }
    }
