@@ -34,9 +34,11 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JMenu;
@@ -45,6 +47,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -291,6 +294,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
         return menuBar;
     }
  
+  
 
     public void actionPerformed(ActionEvent e) {
         JMenuItem source = (JMenuItem)(e.getSource());
@@ -298,83 +302,83 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                    + newline
                    + "    Event source: " + source.getText()
                    + " (an instance of " + getClassName(source) + ")";
-        if(source.getText().equals("Reload File System Tree")){
-            createTree("/home/", 1);
-        } else {
-            if(source.getText().equals("Exit")){
+        File fileEx = (File) fileTree.getLastSelectedPathComponent();
+        File fileSel;
+        switch(source.getText()){
+            case "Reload File System Tree":
+                createTree("/home/", 1);
+                break;
+            case "Exit":
                 super.dispose();
-            } else {
-                if(source.getText().equals("Execute CPC")){
-                    
+                break;
+            case "Execute CPC":
+                
+                break;
+            case "Select Folder CPC":
+                
+                break;
+            case "Execute CAT":
+                
+                break;
+            case "Select Folder CAT":
+                
+                break;
+            case "Execute CP":
+                
+                break;
+            case "Select Folder CP":
+                
+                break;
+            case "Execute CPA":
+                
+                break;
+            case "Select Folder CPA":
+                
+                break;
+            case "Execute AAT":
+                
+                if (fileEx.isDirectory() && fileIsOk(fileEx)) {
+                    AAT.main(new String[]{fileEx.getPath()});
                 } else {
-                    if(source.getText().equals("Select Folder CPC")){
-
-                    } else {
-                        if(source.getText().equals("Execute CAT")){
-
-                        } else {
-                            if(source.getText().equals("Select Folder CAT")){
-
-                            } else {
-                                if(source.getText().equals("Execute CP")){
-
-                                } else {
-                                    if(source.getText().equals("Select Folder CP")){
-
-                                    } else {
-                                        if(source.getText().equals("Execute CPA")){
-
-                                        } else {
-                                            if(source.getText().equals("Select Folder CPA")){
-
-                                            } else {
-                                                if(source.getText().equals("Execute AAT")){
-                                                    File file = (File) fileTree.getLastSelectedPathComponent();
-                                                    if(file.isDirectory() && fileIsOk(file)){
-                                                        AAT.main(new String[]{file.getPath()});
-                                                    } else {
-                                                        JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                                                    }
-                                                    
-                                                } else {
-                                                    if(source.getText().equals("Select Folder AAT")){
-                                                        File file = new File(AAT.selectDirectory());
-                                                        if(file.isDirectory() && fileIsOk(file)){
-                                                            AAT.main(new String[]{file.getPath()});
-                                                        } else {
-                                                            JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                                                        }
-                                                    } else {
-                                                        if(source.getText().equals("Execute RAT")){
-                                                            File file = (File) fileTree.getLastSelectedPathComponent();
-                                                            if(file.isDirectory() && fileIsOk(file)){
-                                                                RAT.main(new String[]{file.getPath()});
-                                                            } else {
-                                                                JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                                                            }
-
-                                                        } else {
-                                                            if(source.getText().equals("Select Folder RAT")){
-                                                                File file = new File(RAT.selectDirectory());
-                                                                if(file.isDirectory() && fileIsOk(file)){
-                                                                    RAT.main(new String[]{file.getPath()});
-                                                                } else {
-                                                                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } 
-                    }
+                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
                 }
-            }
+                break;
+            case "Select Folder AAT":
+                fileSel = new File(AAT.selectDirectory());
+                if (fileSel.isDirectory() && fileIsOk(fileSel)) {
+                    AAT.main(new String[]{fileSel.getPath()});
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                }
+                break;
+            case "Execute RAT":
+                
+                if (fileEx.isDirectory() && fileIsOk(fileEx)) {
+
+
+                    String retorno = "";
+                    retorno = RAT.main(new String[]{fileEx.getPath()});
+
+                    JOptionPane.showMessageDialog(null, retorno, "RAT has finished", JOptionPane.INFORMATION_MESSAGE);
+
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                }
+                break;
+            case "Select Folder RAT":
+                fileSel = new File(RAT.selectDirectory());
+                if (fileSel.isDirectory() && fileIsOk(fileSel)) {
+                    RAT.main(new String[]{fileSel.getPath()});
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
+                }
+                break;
+                      
+            
         }
+
+                                               
 //        output.append(s + newline);
 //        output.setCaretPosition(output.getDocument().getLength());
         System.out.println(s);
