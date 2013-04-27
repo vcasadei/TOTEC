@@ -17,11 +17,11 @@ import java.util.*;
  *
  */
 public class CP {
-
+    private static String error;
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static String main(String[] args) {
 
         int size = args.length;
         String projDirName = "",
@@ -78,6 +78,7 @@ public class CP {
         } catch (IOException e) {
             error("CanŽt write to file " + canPathOfTheProject);
         }
+        return error;
     }
     private static String fileSeparator;
 
@@ -174,6 +175,6 @@ public class CP {
 
     static private void error(String errorMessage) {
         System.out.println(errorMessage);
-        System.exit(1);
+        error += errorMessage;
     }
 }

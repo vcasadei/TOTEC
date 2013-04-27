@@ -13,6 +13,12 @@ package TOTEC;
 import CyanTestingTools.AAT;
 import CyanTestingTools.CP;
 import CyanTestingTools.RAT;
+import Interface.AATInterface;
+import Interface.CATInterface;
+import Interface.CPAInterface;
+import Interface.CPCInterface;
+import Interface.CPInterface;
+import Interface.RATInterface;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.util.Enumeration;
@@ -303,6 +309,12 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                    + "    Event source: " + source.getText()
                    + " (an instance of " + getClassName(source) + ")";
         File fileEx = (File) fileTree.getLastSelectedPathComponent();
+        CPCInterface cpc;
+        CPAInterface cpa;
+        CATInterface cat;
+        CPInterface cp;
+        AATInterface aat;
+        RATInterface rat;
         File fileSel;
         switch(source.getText()){
             case "Reload File System Tree":
@@ -312,70 +324,41 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                 super.dispose();
                 break;
             case "Execute CPC":
-                
+                cpc = new CPCInterface(fileEx.getPath());
                 break;
             case "Select Folder CPC":
-                
+                cpc = new CPCInterface("");
                 break;
             case "Execute CAT":
-                
+                cat = new CATInterface(fileEx.getPath());
                 break;
             case "Select Folder CAT":
-                
+                cat = new CATInterface("");
                 break;
             case "Execute CP":
-                
+                cp = new CPInterface(fileEx.getPath());
                 break;
             case "Select Folder CP":
-                
+                cp = new CPInterface("");
                 break;
             case "Execute CPA":
-                
+                cpa = new CPAInterface(fileEx.getPath());
                 break;
             case "Select Folder CPA":
-                
+                cpa = new CPAInterface("");
                 break;
             case "Execute AAT":
-                
-                if (fileEx.isDirectory() && fileIsOk(fileEx)) {
-                    AAT.main(new String[]{fileEx.getPath()});
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                }
+                aat = new AATInterface(fileEx.getPath());
                 break;
             case "Select Folder AAT":
-                fileSel = new File(AAT.selectDirectory());
-                if (fileSel.isDirectory() && fileIsOk(fileSel)) {
-                    AAT.main(new String[]{fileSel.getPath()});
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                }
+                aat = new AATInterface("");
                 break;
             case "Execute RAT":
-                
-                if (fileEx.isDirectory() && fileIsOk(fileEx)) {
-
-
-                    String retorno = "";
-                    retorno = RAT.main(new String[]{fileEx.getPath()});
-
-                    JOptionPane.showMessageDialog(null, retorno, "RAT has finished", JOptionPane.INFORMATION_MESSAGE);
-
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                }
+                rat = new RATInterface(fileEx.getPath());
                 break;
             case "Select Folder RAT":
-                fileSel = new File(RAT.selectDirectory());
-                if (fileSel.isDirectory() && fileIsOk(fileSel)) {
-                    RAT.main(new String[]{fileSel.getPath()});
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR: The Selected Item is not a Directory or not a supported one.");
-                }
+                rat = new RATInterface("");
                 break;
-                      
-            
         }
 
                                                

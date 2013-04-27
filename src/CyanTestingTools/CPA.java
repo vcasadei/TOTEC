@@ -21,11 +21,11 @@ import java.io.IOException;
  *
  */
 public class CPA {
-
+    private static String error = "";
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static String main(String[] args) {
 
         int size = args.length;
         String parentDirName = "",
@@ -72,11 +72,12 @@ public class CPA {
                     mainObject});
             }
         }
+        return error;
 
     }
 
     static private void error(String errorMessage) {
         System.out.println(errorMessage);
-        System.exit(1);
+        error = errorMessage;
     }
 }

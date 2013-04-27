@@ -10,11 +10,11 @@ package CyanTestingTools;
  *
  */
 public class CAT {
-
+    private static String error = "";
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static String main(String[] args) {
         // TODO Auto-generated method stub
 
         String stringArray[] = args;
@@ -63,10 +63,12 @@ public class CAT {
             CPC.main(new String[]{dir, projName, "-t", "main", "Program"});
 // 			System.out.println(projName);
         }
+        return error;
+
     }
 
     static private void error(String errorMessage) {
         System.out.println(errorMessage);
-        System.exit(1);
+        error = errorMessage;
     }
 }

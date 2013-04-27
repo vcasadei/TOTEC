@@ -36,12 +36,16 @@ import java.io.*;
  *
  */
 public class CPC {
-
+    private static String error = "";
     /**
      * @param stringArray
      */
-    public static void main(String[] args) {
+    public static String main(String[] args) {
         // TODO Auto-generated method stub
+        System.out.println(args.length);
+        for (String s: args) {
+            System.out.println(s);
+        }
 
         boolean isTest = false, createProject = false;
         int size = args.length;
@@ -125,6 +129,7 @@ public class CPC {
         if (createProject) {
             CP.main(new String[]{projectDir, "", "", "", ""});
         }
+        return error;
     }
 
     static private boolean createDir(String path) {
@@ -141,6 +146,6 @@ public class CPC {
 
     static private void error(String errorMessage) {
         System.out.println(errorMessage);
-        System.exit(1);
+        error = errorMessage;
     }
 }

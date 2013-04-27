@@ -42,6 +42,8 @@ public class AAT {
     private String errorLine;
     //Atributo booleano da Classe que marca a existência de erro
     private boolean error;
+    
+    private static String errors;
 
     /* O Método selectDirectory faz a seleção do diretório que será utilizado */
     /**
@@ -317,7 +319,7 @@ public class AAT {
         }
     }
 
-    public static void main(String[] args) {
+    public static String main(String[] args) {
         //Escolhe a Pasta que deseja procurar
         File mainDirectory;
         String firstArg = "";
@@ -340,5 +342,6 @@ public class AAT {
             //Se estivermos em um diretório, lemos seus subdiretórios
             readSubFolder(mainDirectory, objAAT.testDataPath);
         }
+        return errors;
     }
 }

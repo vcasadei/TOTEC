@@ -19,6 +19,7 @@ public class RAT {
 
     /* String que conterá os agrupamentos de tipos de nomes de testes */
     private String filesName[];
+    private static String error;
 
     /* O Método selectDirectory faz a seleção do diretório que será utilizado */
     public static String selectDirectory() {
@@ -189,6 +190,6 @@ public class RAT {
                 }
             }
         }
-        return "OK*";
+        return error;
     }
 }
