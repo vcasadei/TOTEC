@@ -89,6 +89,8 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
     
     static boolean flag;
     String newline = "\n";
+    
+    private static String OS = System.getProperty("os.name").toLowerCase();
    
 
     public JMenuBar createMenuBar() {
@@ -102,13 +104,13 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
         menuBar = new JMenuBar();
  
         //Build the first menu.
-        menu = new JMenu("File");
-            menu.setMnemonic(KeyEvent.VK_F);
+        menu = new JMenu("Program");
+            menu.setMnemonic(KeyEvent.VK_P);
             menu.getAccessibleContext().setAccessibleDescription(
-                    "File Menu");
+                    "Program Menu");
             menuBar.add(menu);
 
-            //a group of JMenuItems
+            
             menuItem = new JMenuItem("Reload File System Tree",
                                      KeyEvent.VK_R);
             //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
@@ -121,6 +123,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
 
             //a group of radio button menu items
             menu.addSeparator();
+            
             menuItem = new JMenuItem("Exit",
                                      KeyEvent.VK_E);
             //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
@@ -260,23 +263,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
             menu.setMnemonic(KeyEvent.VK_H);
             menu.getAccessibleContext().setAccessibleDescription(
                     "Help Menu");
-            menuBar.add(menu);
-            
-            menuItem = new JMenuItem("Program Info",
-                                     KeyEvent.VK_I);
-            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
-            menuItem.getAccessibleContext().setAccessibleDescription(
-                    "Program Information");
-            menuItem.addActionListener(this);
-            menu.add(menuItem);
-            
-            menuItem = new JMenuItem("Developer",
-                                     KeyEvent.VK_D);
-            //menuItem.setMnemonic(KeyEvent.VK_T); //used constructor instead
-            menuItem.getAccessibleContext().setAccessibleDescription(
-                    "Developer Information");
-            menuItem.addActionListener(this);
-            menu.add(menuItem);
+            menuBar.add(menu);;
             
             menuItem = new JMenuItem("The Cyan Language",
                                      KeyEvent.VK_L);
@@ -359,11 +346,23 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
             case "Select Folder RAT":
                 rat = new RATInterface("");
                 break;
+            case "Execute CCC":
+                //rat = new RATInterface(fileEx.getPath());
+                break;
+            case "Select Folder CCC":
+                //rat = new RATInterface("");
+                break;
+            case "The Cyan Language":
+                java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+                try {
+                    java.net.URI uri = new java.net.URI("http://cyan-lang.org/");
+                    desktop.browse(uri);
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                }
+                break;
         }
-
-                                               
-//        output.append(s + newline);
-//        output.setCaretPosition(output.getDocument().getLength());
+        
         System.out.println(s);
     }
  
@@ -412,15 +411,6 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
         fileTree.setEditable(true);
         /* Get the focus to the second element on the tree */
         fileTree.setSelectionRow(row);
-            
-//        TreeModel model = fileTree.getModel();
-//        if (model != null) {
-//            Object root = model.getRoot();
-//            System.out.println(root.toString());
-//            walk(model, root, "");
-//        } else {
-//            System.out.println("Tree is empty.");
-//        }
         
         /* Creates and Listener to the Tree node Selected */
         fileTree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -535,7 +525,7 @@ protected void walk(TreeModel model, Object o){
     private boolean fileIsOk(File file) {
         String split = file.getName();
         if (split.indexOf(".") == -1 || split.indexOf(".") > 0) {
-            if ((split.indexOf(".rar") == -1 && split.indexOf(".zip") == -1 && split.indexOf(".tar.gz") == -1)) {
+            if ((split.indexOf(".rar") == -1 && split.indexOf(".pdf") == -1 && split.indexOf(".zip") == -1 && split.indexOf(".tar.gz") == -1)) {
                 return true;
             }
         }
@@ -583,13 +573,44 @@ protected void walk(TreeModel model, Object o){
         /* return the buffer */
         return buffer.toString();
     }
+    
+    public static boolean isWindows() {
+        return (OS.indexOf("win") >= 0);
+    }
+
+    public static boolean isMac() {
+        return (OS.indexOf("mac") >= 0);
+    }
+
+    public static boolean isUnix() {
+        return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0);
+    }
+
+    public static boolean isSolaris() {
+        return (OS.indexOf("sunos") >= 0);
+    }
 
     /* Main Method */
     public static void main(String args[]) {
         /* Calls the class constructor */
         flag = true;
-        TOTEC totec = new TOTEC("/home/");
-       
+        if(args.length > 0){
+            String file = args[0];
+            TOTEC totec = new TOTEC(file);
+        } else {
+            if (isWindows()) {
+                TOTEC totec = new TOTEC("C:/");
+            } else if (isMac()) {
+                TOTEC totec = new TOTEC("/Users/");
+            } else if (isUnix()) {
+                TOTEC totec = new TOTEC("/home/");
+            } else if (isSolaris()) {
+                TOTEC totec = new TOTEC("/home/");
+            }
+        }
+        
+        
+        
     }
 }
 
