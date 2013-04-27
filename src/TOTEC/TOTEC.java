@@ -428,6 +428,7 @@ public class TOTEC extends JFrame implements ActionListener, ItemListener {
                     try {
                         /* Prints at the Text Area the File Details or the File Content, if not a Directory */
                         fileDetailsTextArea.setText(getFileDetails(file));
+                        fileDetailsTextArea.setCaretPosition(0);
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(TOTEC.class.getName()).log(Level.SEVERE, null, ex);
                     }
