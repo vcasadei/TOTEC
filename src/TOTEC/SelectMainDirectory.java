@@ -9,6 +9,7 @@ import TOTEC.TOTEC;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.border.Border;
 
 /**
  *
@@ -17,6 +18,7 @@ import javax.swing.ButtonGroup;
 public class SelectMainDirectory extends javax.swing.JFrame {
     private String file;
     private boolean isOK = true;
+    Border border;
     /**
      * Creates new form SelectMainDirectory
      */
@@ -29,6 +31,7 @@ public class SelectMainDirectory extends javax.swing.JFrame {
         setVisible(true);
         super.getRootPane().setDefaultButton(this.TOTECbt);
         this.TOTECbt.requestFocus();
+        border =  Directorytf.getBorder();
     }
 
     /**
@@ -173,6 +176,7 @@ public class SelectMainDirectory extends javax.swing.JFrame {
         if(this.Nocb.isEnabled()){
             this.SelectDirectorybt.setEnabled(false);
             this.Directorytf.setEnabled(false);
+            Directorytf.setBorder(border);
         } else {
             this.SelectDirectorybt.setEnabled(true);
         }
@@ -186,35 +190,38 @@ public class SelectMainDirectory extends javax.swing.JFrame {
 
     private void TOTECbtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TOTECbtMouseClicked
         // TODO add your handling code here:
+        String folder;
+        folder = "";
         
+            
         if(this.Yescb.isSelected()){
-            if(this.Directorytf.getText().equals("")){
-                isOK = false;
-                this.Directorytf.setBorder(BorderFactory.createLineBorder(Color.red));
-            } else {
+            if(!this.Directorytf.getText().equals("")){
+                folder = this.Directorytf.getText();
                 isOK = true;
-                TOTEC.main(new String[]{this.Directorytf.getText()});
+                Directorytf.setBorder(border);
+            } else {
+                Directorytf.setBorder(BorderFactory.createLineBorder(Color.red));
+                isOK = false;
             }
+            
         } else {
-                TOTEC.main(new String[]{});
+            if(Nocb.isSelected()){            
+                isOK = true;
+                Directorytf.setBorder(border);
+            }
         }
-        this.dispose();
+        
+        if(isOK){
+           TOTEC.main(new String[]{folder});
+           this.dispose(); 
+        } else {
+            this.Directorytf.setBorder(BorderFactory.createLineBorder(Color.red));
+        }
+        
     }//GEN-LAST:event_TOTECbtMouseClicked
 
     private void TOTECbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TOTECbtActionPerformed
-        // TODO add your handling code here:
-        if(this.Yescb.isSelected()){
-            if(this.Directorytf.getText().equals("")){
-                isOK = false;
-                this.Directorytf.setBorder(BorderFactory.createLineBorder(Color.red));
-            } else {
-                isOK = true;
-                TOTEC.main(new String[]{this.Directorytf.getText()});
-            }
-        } else {
-                TOTEC.main(new String[]{});
-        }
-        this.dispose();
+            
     }//GEN-LAST:event_TOTECbtActionPerformed
 
     /**

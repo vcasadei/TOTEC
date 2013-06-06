@@ -8,6 +8,7 @@ import CyanTestingTools.AAT;
 import CyanTestingTools.CPC;
 import java.awt.Color;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 
 /**
@@ -216,6 +217,7 @@ public class CPCInterface extends javax.swing.JFrame {
         String folder, proj, t, p, parameter;
         folder = proj = t = p = parameter = "";
         String [] parameters;
+        ArrayList<String> s = new ArrayList();
 
         if(!FolderTF.getText().equals("")){
             folder = FolderTF.getText();
@@ -240,35 +242,63 @@ public class CPCInterface extends javax.swing.JFrame {
             p = "-p";
             hasP = true;
         }
-        
+
         if(!ParameterTa.getText().equals("")){
             parameter = ParameterTa.getText();
             parameters = parameter.split(" ");
+            
+            s.add(folder);
+            
+            s.add(proj);
+            if(hasT){
+                s.add(t);
+                if(hasP){
+                    s.add(p);
+                }
+            }
+            
+            for(int i = 0; i < parameters.length; i++){
+                s.add(parameters[i]);
+            }
+                
+            
         } else {
             ParameterTa.setBorder(BorderFactory.createLineBorder(Color.red));
             isOK = false;
         }
+        String[] strArray = new String[s.size()];
+        int i = 0;
+        for(String elemen : s){
+            strArray[i] = elemen;
+            System.out.println(elemen);
+            i++;
+        }
+//        s.
+//        for(int i = 0; i < s.length; i++){
+//            System.out.println(s[i]);
+//        }
         if(isOK){  
             String retorno = "";
-            if(hasT){
-                if(hasP){
-                    retorno = CPC.main(new String[]{folder, proj, t, p, 
-                    parameter});
-                } else {
-                    retorno = CPC.main(new String[]{folder, proj, t, 
-                    parameter});
-                }
-            } else {
-                if(hasP){
-                    retorno = CPC.main(new String[]{folder, proj, p, 
-                    parameter});
-                } else {
-                    retorno = CPC.main(new String[]{folder, proj, 
-                    parameter});
-                }
-            }
-            retorno = CPC.main(new String[]{folder, proj, t, p, 
-                parameter});
+//            if(hasT){
+//                if(hasP){
+//                    retorno = CPC.main(new String[]{folder, proj, t, p, 
+//                    parameter});
+//                } else {
+//                    retorno = CPC.main(new String[]{folder, proj, t, 
+//                    parameter});
+//                }
+//            } else {
+//                if(hasP){
+//                    retorno = CPC.main(new String[]{folder, proj, p, 
+//                    parameter});
+//                } else {
+//                    retorno = CPC.main(new String[]{folder, proj, 
+//                    parameter});
+//                }
+//            }
+//            retorno = CPC.main(new String[]{folder, proj, t, p, 
+//                parameter});
+            retorno = CPC.main(strArray);
             if(retorno.isEmpty()){
                 this.dispose();
                 SuccessMessage ok = new SuccessMessage("CPC");
